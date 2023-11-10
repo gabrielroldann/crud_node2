@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabela de Contatos</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    
+    <header>
+        <a href="#" id="logo">LOGO</a>
+        
+        <div id="items">
+            <a href="index.html">HOME</a>
+            <a href="tabela_contatos.html">CONTATOS</a>
+        </div>
+
+    </header>
+
+    <main id="conteudo">
+        <div id="tabela">
+            <div id="cabecalho-tabela">
+                <h3>Tabela de Contatos</h3>
+                <h4 id="abrirModal" onclick="abrirModal()">Adicionar Contato</h4>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>NOME</th>
+                        <th>EMAIL</th>
+                        <th>CATEGORIA</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        
+        <dialog id="modal">
+            <div id="popup">
+                <div id="cabecalho_popup">
+                    <h4>ADICIONAR UM CONTATO</h4>
+                    <ion-icon id="close_popup" onclick="fecharModal()" name="close-outline"></ion-icon>
+                </div>
+
+                <form>
+                    <input required type="text" name="nome" id="nome" placeholder="Nome">
+                    <input required type="email" name="email" id="email" placeholder="Email">
+                    <select name="categorias" id="dropdownCategorias">
+                        <option value="" disabled selected hidden>Selecione uma categoria</option>
+                    </select>
+                    <input id="addContato" type="submit" value="Adicionar">
+                </form>
+            </div>
+        </dialog>
+    </main>
+    
+
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <script src="script_form.js"></script>
+    <script src="script_tabela.js"></script>
+</body>
+</html>
