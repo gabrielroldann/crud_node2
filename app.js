@@ -23,7 +23,7 @@ app.get('/contatos', (req, res) => {
         if (err) throw err;
         console.log('Conectado ao Banco de Dados')
 
-        const query = `SELECT * FROM contato`;
+        const query = `SELECT * FROM contatos`;
 
         con.query(query, (err, result) => {
             if (err) throw err;
@@ -74,7 +74,7 @@ app.get('/contato/:email', (req, res) => {
     con.connect((err) => {
         console.log('Conectado ao Banco de Dados')
 
-        const query = `SELECT * FROM contato WHERE email=${email}`;
+        const query = `SELECT * FROM contatos WHERE email=${email}`;
 
         con.query(query, (err, result) => {
             if (err) throw err;
@@ -97,7 +97,7 @@ app.get('/contatos/:categoria', (req, res) => {
         database: "node_test"
     });
 
-    const query = `SELECT * FROM contato WHERE categoria=${categoria}`;
+    const query = `SELECT * FROM contatos WHERE categoria=${categoria}`;
 
     con.query(query, (err, result) => {
         if (err) throw err;
@@ -131,7 +131,7 @@ app.post('/contato', (req, res) => {
         if (err) throw err;
         console.log('Conectado ao Banco de Dados')
 
-        const query = `INSERT INTO contato (nome, email, categoria) VALUES ('${contato.nome}', '${contato.email}', '${contato.categoria}')`;
+        const query = `INSERT INTO contatos (nome, email, categoria) VALUES ('${contato.nome}', '${contato.email}', '${contato.categoria}')`;
 
         con.query(query, (err, result) => {
             if (err) throw err;
@@ -169,7 +169,7 @@ app.put('/contato/:email', (req, res) => {
         if (err) throw err;
         console.log('Conectado ao Banco de Dados')
 
-        const query = `UPDATE contato SET nome='${nomeNovo}', email='${emailNovo}', categoria='${categoriaNova}' WHERE email='${emailAntigo}'`;
+        const query = `UPDATE contatos SET nome='${nomeNovo}', email='${emailNovo}', categoria='${categoriaNova}' WHERE email='${emailAntigo}'`;
 
         con.query(query, (err, result) => {
             if (err) throw err;
@@ -196,7 +196,7 @@ app.delete('/contato/:email', (req, res) => {
         if (err) throw err;
         console.log('Conectado ao Banco de Dados')
 
-        const query = `DELETE * FROM contato WHERE email='${email}'`;
+        const query = `DELETE * FROM contatos WHERE email='${email}'`;
 
         con.query(query, (err, result) => {
             if (err) throw err;

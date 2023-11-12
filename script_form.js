@@ -1,27 +1,27 @@
 
 function abrirModal() {
-     const modal = document.getElementById('modal');
-     modal.showModal();
+    const modal = document.getElementById('modal');
+    modal.showModal();
 
-
-
-     fetch('http://localhost:3000/categorias', {
+    fetch('http://localhost:3000/categorias', {
         method: "GET",
         headers: {"Content-type": "application/json; charset=UTF-8"}
     })
-     .then(response => response.json())
-     .then(categorias => {
+    .then(response => response.json())
+    .then(categorias => {
         console.log(categorias)
         
         const dropdown = document.getElementById('dropdownCategorias');
         categorias.forEach(categoria => {
-            const i = 0;
             const option = document.createElement('option')
-            option.innerHTML = `<option value="categoria${i+1}">${categoria.nome_categoria}</option>`
+            option.value = categoria.id
+            option.text = categoria.categoria
+            
+            console.log("CATEGORIA ", categoria.id);
             dropdown.appendChild(option)
         });
-     })
-     .catch(err => console.log(err))
+    })
+    .catch(err => console.log(err))
 }
 
 function fecharModal() {
@@ -34,7 +34,8 @@ const buttonAdd = document.getElementById('addContato');
 buttonAdd.addEventListener('click', () => {
     const nome = document.getElementById('nome')
     const email = document.getElementById('email')
-    const dropdown = document.getElementById('dropdownCategorias')
+    const dropdown = document.querySelector('#dropdownCategorias')
+    // output = dropdown.options[dropdown.selectedIndex].value;
 
     if (nome.value != '' || email.value != '') {
 
@@ -45,7 +46,7 @@ buttonAdd.addEventListener('click', () => {
         }
     
         console.log(dropdown.value)
-    
+        
         fetch(`http://localhost:3000/contato`, {
             method: 'POST',
             body: JSON.stringify(contato),
@@ -55,5 +56,4 @@ buttonAdd.addEventListener('click', () => {
         .then(contato => console.log(contato))
         .catch(err => console.log(err))
     }
-
 })
