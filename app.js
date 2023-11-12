@@ -23,7 +23,8 @@ app.get('/contatos', (req, res) => {
         if (err) throw err;
         console.log('Conectado ao Banco de Dados')
 
-        const query = `SELECT * FROM contatos`;
+        // const query = `SELECT * FROM contatos`;
+        const query = `SELECT * FROM contatos contato JOIN categorias categoria ON contato.categoria = categoria.id`
 
         con.query(query, (err, result) => {
             if (err) throw err;
@@ -74,7 +75,8 @@ app.get('/contato/:email', (req, res) => {
     con.connect((err) => {
         console.log('Conectado ao Banco de Dados')
 
-        const query = `SELECT * FROM contatos WHERE email=${email}`;
+        // const query = `SELECT * FROM contatos WHERE email='${email}'`;
+        const query = `SELECT * FROM contatos contato JOIN categorias categoria ON contato.categoria = categoria.id WHERE email='${email}'`
 
         con.query(query, (err, result) => {
             if (err) throw err;
@@ -196,7 +198,7 @@ app.delete('/contato/:email', (req, res) => {
         if (err) throw err;
         console.log('Conectado ao Banco de Dados')
 
-        const query = `DELETE * FROM contatos WHERE email='${email}'`;
+        const query = `DELETE FROM contatos WHERE email='${email}'`;
 
         con.query(query, (err, result) => {
             if (err) throw err;
