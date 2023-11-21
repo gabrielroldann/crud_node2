@@ -25,7 +25,19 @@
             <div id="cabecalho-tabela">
                 <h3>Tabela de Filmes</h3>
                 <!-- ver_contato.html?email=${contato.email} -->
-                
+                <form id="filtroFilmes">
+                    <p>Filtrar por gênero</p>
+                    <select name="filtoGenero" id="filtroGenero">
+                        <option value="" disabled selected hidden>Selecione um gênero</option>
+                    </select>
+                    <button type="submit" id="btnFiltro">Filtrar</button>
+                </form>
+                <div id="buttons">
+                    <a id="ordemPadrao" href="tabela_filmes.html">Padrão</a>
+                    <a id="ordenarString">Alfabética</a>
+                    <a id="ordenarAno">Ano</a>
+                    <a id="ordenarDistribuidor">Distribuidor</a>
+                </div>
             </div>
 
             <table>

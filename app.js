@@ -65,6 +65,7 @@ app.get('/categorias', (req, res) => {
     })
 });
 
+// retorna todos os filmes
 app.get('/filmes', (req, res) => {
 
     var con = mysql.createConnection({
@@ -94,9 +95,36 @@ app.get('/filmes', (req, res) => {
     })
 });
 
-app.get('/filmes/:ordem', (req, res) => {
+// retorna todos os generos
+app.get('/generos', (req, res) => {
 
-    const ordenacao = req.params.ordem;
+    var con = mysql.createConnection({
+        host: "localhost",
+        user: "root",
+        password: "i$>E8]>0&zDOG5c",
+        database: "node_test"
+    });
+
+    con.connect((err) => {
+        if (err) throw err;
+
+        const query = `
+            select * from generos;
+        `;
+
+        con.query(query, (err, result) => {
+            if (err) throw err;
+
+            console.log(result)
+            res.send(result)
+        })
+    })
+});
+
+// filtra por genero
+app.get('/filmeGenero/:genero', (req, res) => {
+
+    const genero = req.params.genero;
 
     var con = mysql.createConnection({
         host: "localhost",
@@ -113,17 +141,11 @@ app.get('/filmes/:ordem', (req, res) => {
             join filmes on filmes_completos.id_filme_completos = filmes.id_filme
             join distribuidores on filmes_completos.id_distribuidor_completos = distribuidores.id_distribuidor
             join generos on filmes_completos.id_genero_completos = generos.id_genero
-            order by ${ordenacao};
+            where id_genero = ${genero}
+            order by id_completos;
         `;
-
-        con.query(query, (err, result) => {
-            if (err) throw err;
-
-            console.log(result)
-            res.send(result)
-        })
     })
-});
+})
 
 // retorna contato pelo email
 app.get('/contato/:email', (req, res) => {

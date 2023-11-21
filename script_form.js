@@ -35,7 +35,6 @@ buttonAdd.addEventListener('click', () => {
     const nome = document.getElementById('nome')
     const email = document.getElementById('email')
     const dropdown = document.querySelector('#dropdownCategorias')
-    // output = dropdown.options[dropdown.selectedIndex].value;
 
     if (nome.value != '' || email.value != '') {
 

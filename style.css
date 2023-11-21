@@ -312,8 +312,15 @@ form {
 
 /* FILMES */
 
-#ordenarFilmes {
-    padding: 0.8rem 1rem;
+#buttons {
+    display: flex;
+    gap: 1rem;
+}
+
+#buttons a {
+    text-decoration: none;
+    color: white;
+    padding: 0.5rem 1rem;
     border-radius: 6px;
     background-color: rgb(27, 56, 89);
     text-align: center;
@@ -321,8 +328,19 @@ form {
     transition: all 0.3s;
 }
 
-#ordenarFilmes:hover {
+#buttons a:hover {
     background-color: rgb(50, 82, 119);
     box-shadow: 0 0 8px 2px rgba(255, 255, 255, 0.2);
     cursor: pointer;
+}
+
+#filtroFilmes {
+    display: flex;
+    /* align-items: center; */
+    gap: 0.4rem;
+}
+
+#btnFiltro {
+    width: 50%;
+    align-self: center;
 }

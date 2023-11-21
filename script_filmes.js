@@ -8,11 +8,6 @@ fetch(`http://localhost:3000/filmes`, {
 
     console.log('response', filmes);
 
-    const cabecalho = document.getElementById('cabecalho-tabela')
-    const buttonOrdem = document.createElement('a')
-    buttonOrdem.href = `tabela_filmes.html`
-    cabecalho.appendChild(buttonOrdem)
-
     const lista_filmes = [ ];
 
     filmes.forEach(linha => {
@@ -24,7 +19,148 @@ fetch(`http://localhost:3000/filmes`, {
         lista_filmes[id_filme].generos.push({ id_genero, nome_genero })
     })
 
-    console.log('LISTA COMPLETA GENEROS:', lista_filmes)
+    console.log('LISTA COMPLETA:', lista_filmes)
+
+    // ordenação por distribuidor 
+    const buttonDistribuidor = document.getElementById('ordenarDistribuidor')
+    buttonDistribuidor.addEventListener('click', () => {
+
+        lista_filmes.sort((a, b) => {
+
+            const nome1 = a.nome_distribuidor.toUpperCase();
+            const nome2 = b.nome_distribuidor.toUpperCase();
+
+            if (nome1 < nome2) {
+                return -1;
+            }
+            
+            if (nome1 > nome2) {
+                return 1;
+            }
+            
+            return 0;
+        })
+        
+        console.log(lista_filmes)
+
+        const tabela = document.getElementById('tabela')
+        let tbody = tabela.querySelector('tbody')
+        tbody.innerHTML = ``;
+
+        lista_filmes.forEach(filme => {
+            const arrayAllGeneros = filme.generos
+            // console.log(arrayAllGeneros)
+        
+            const teste_generos = [ ]
+            arrayAllGeneros.forEach(genero => {
+                const generoAtual = genero.nome_genero;
+                teste_generos.push(generoAtual)
+                // console.log(genero.nome_genero)
+            })
+
+            // console.log(teste_generos)
+
+            const linha = document.createElement('tr')
+        
+            linha.innerHTML = `
+                <td>${filme.nome_filme}</td>
+                <td>${filme.ano_filme}</td>
+                <td>${filme.nome_distribuidor}</td>
+                <td>${colocar_generos(teste_generos)}</td>
+            `;
+            tbody.appendChild(linha)
+        });
+
+    })
+
+    // ordenação por ano
+    const buttonOrdemAno = document.getElementById('ordenarAno')
+    buttonOrdemAno.addEventListener('click', () => {
+
+        lista_filmes.sort((a, b) => a.ano_filme - b.ano_filme);
+
+        console.log(lista_filmes)
+
+        const tabela = document.getElementById('tabela')
+        let tbody = tabela.querySelector('tbody')
+        tbody.innerHTML = ``;
+
+        lista_filmes.forEach(filme => {
+            const arrayAllGeneros = filme.generos
+            // console.log(arrayAllGeneros)
+        
+            const teste_generos = [ ]
+            arrayAllGeneros.forEach(genero => {
+                const generoAtual = genero.nome_genero;
+                teste_generos.push(generoAtual)
+                // console.log(genero.nome_genero)
+            })
+
+            // console.log(teste_generos)
+
+            const linha = document.createElement('tr')
+        
+            linha.innerHTML = `
+                <td>${filme.nome_filme}</td>
+                <td>${filme.ano_filme}</td>
+                <td>${filme.nome_distribuidor}</td>
+                <td>${colocar_generos(teste_generos)}</td>
+            `;
+            tbody.appendChild(linha)
+        });
+    })
+
+    // ordenação por nome
+    const buttonOrdemAlfabetica = document.getElementById('ordenarString');
+    buttonOrdemAlfabetica.addEventListener('click', () => {
+        
+        lista_filmes.sort((a, b) => {
+            let nome1 = a.nome_filme.toUpperCase();
+            let nome2 = b.nome_filme.toUpperCase();
+    
+            if (nome1 < nome2) {
+                return -1;
+            }
+    
+            if (nome1 > nome2) {
+                return 1;
+            }
+    
+            return 0;
+        })
+
+        // console.log(lista_filmes)
+
+        const tabela = document.getElementById('tabela')
+        let tbody = tabela.querySelector('tbody')
+        tbody.innerHTML = ``;
+
+        lista_filmes.forEach(filme => {
+            const arrayAllGeneros = filme.generos
+            // console.log(arrayAllGeneros)
+        
+            const teste_generos = [ ]
+            arrayAllGeneros.forEach(genero => {
+                const generoAtual = genero.nome_genero;
+                teste_generos.push(generoAtual)
+                // console.log(genero.nome_genero)
+            })
+
+            // console.log(teste_generos)
+
+            const linha = document.createElement('tr')
+        
+            linha.innerHTML = `
+                <td>${filme.nome_filme}</td>
+                <td>${filme.ano_filme}</td>
+                <td>${filme.nome_distribuidor}</td>
+                <td>${colocar_generos(teste_generos)}</td>
+            `;
+            tbody.appendChild(linha)
+        });
+    
+        console.log(lista_filmes)
+    })
 
     const tabela = document.getElementById('tabela')
     const tbody = tabela.querySelector('tbody')
@@ -68,3 +204,26 @@ function colocar_generos(lista) {
 
     return teste_string;
 }
+
+
+fetch(`http://localhost:3000/generos`, {
+    method: 'GET',
+    headers: {"Content-type": "application/json; charset=UTF-8"}
+})
+.then(response => response.json())
+.then(generos => {
+    console.log('GENEROS: ', generos)
+
+    const dropdown = document.getElementById('filtroGenero');
+    generos.forEach(genero => {
+        const option = document.createElement('option');
+        option.value = genero.id_genero;
+        option.text = genero.nome_genero;
+
+        dropdown.appendChild(option);
+    })
+
+    
+});
+
+
