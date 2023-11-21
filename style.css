@@ -71,7 +71,7 @@ header #items a {
 header #items a::before {
     content: "";
     position: absolute;
-    height: 2px;
+    height: 1.5px;
     width: 0;
     background-color: rgb(49, 102, 163);
     bottom: -20%;
@@ -307,5 +307,22 @@ form {
 #addContato:hover {
     background-color: rgb(50, 82, 119);
     box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.3);
+    cursor: pointer;
+}
+
+/* FILMES */
+
+#ordenarFilmes {
+    padding: 0.8rem 1rem;
+    border-radius: 6px;
+    background-color: rgb(27, 56, 89);
+    text-align: center;
+
+    transition: all 0.3s;
+}
+
+#ordenarFilmes:hover {
+    background-color: rgb(50, 82, 119);
+    box-shadow: 0 0 8px 2px rgba(255, 255, 255, 0.2);
     cursor: pointer;
 }

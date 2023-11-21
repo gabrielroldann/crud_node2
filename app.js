@@ -24,7 +24,10 @@ app.get('/contatos', (req, res) => {
         console.log('Conectado ao Banco de Dados')
 
         // const query = `SELECT * FROM contatos`;
-        const query = `SELECT * FROM contatos contato JOIN categorias categoria ON contato.categoria = categoria.id`
+        const query = `
+            select * from contatos contato
+            join categorias categoria on contato.categoria = categoria.id;
+        `;
 
         con.query(query, (err, result) => {
             if (err) throw err;
@@ -49,7 +52,69 @@ app.get('/categorias', (req, res) => {
         if (err) throw err;
         console.log('Conectado ao Banco de Dados')
 
-        const query = `SELECT * FROM categorias`
+        const query = `
+            select * from categorias;
+        `;
+
+        con.query(query, (err, result) => {
+            if (err) throw err;
+
+            console.log(result)
+            res.send(result)
+        })
+    })
+});
+
+app.get('/filmes', (req, res) => {
+
+    var con = mysql.createConnection({
+        host: "localhost",
+        user: "root",
+        password: "i$>E8]>0&zDOG5c",
+        database: "node_test"
+    });
+
+    con.connect((err) => {
+        if (err) throw err;
+
+        const query = `
+            select * from filmes_completos
+            join filmes on filmes_completos.id_filme_completos = filmes.id_filme
+            join distribuidores on filmes_completos.id_distribuidor_completos = distribuidores.id_distribuidor
+            join generos on filmes_completos.id_genero_completos = generos.id_genero
+            order by id_completos;
+        `;
+
+        con.query(query, (err, result) => {
+            if (err) throw err;
+
+            console.log(result)
+            res.send(result)
+        })
+    })
+});
+
+app.get('/filmes/:ordem', (req, res) => {
+
+    const ordenacao = req.params.ordem;
+
+    var con = mysql.createConnection({
+        host: "localhost",
+        user: "root",
+        password: "i$>E8]>0&zDOG5c",
+        database: "node_test"
+    });
+
+    con.connect((err) => {
+        if (err) throw err;
+
+        const query = `
+            select * from filmes_completos
+            join filmes on filmes_completos.id_filme_completos = filmes.id_filme
+            join distribuidores on filmes_completos.id_distribuidor_completos = distribuidores.id_distribuidor
+            join generos on filmes_completos.id_genero_completos = generos.id_genero
+            order by ${ordenacao};
+        `;
 
         con.query(query, (err, result) => {
             if (err) throw err;
@@ -76,7 +141,11 @@ app.get('/contato/:email', (req, res) => {
         console.log('Conectado ao Banco de Dados')
 
         // const query = `SELECT * FROM contatos WHERE email='${email}'`;
-        const query = `SELECT * FROM contatos contato JOIN categorias categoria ON contato.categoria = categoria.id WHERE email='${email}'`
+        const query = `
+            select * from contatos contato
+            join categorias categoria on contato.categoria = categoria.id
+            where email='${email}';
+        `;
 
         con.query(query, (err, result) => {
             if (err) throw err;
@@ -99,7 +168,9 @@ app.get('/contatos/:categoria', (req, res) => {
         database: "node_test"
     });
 
-    const query = `SELECT * FROM contatos WHERE categoria=${categoria}`;
+    const query = `
+        select * from contatos where categoria=${categoria};
+    `;
 
     con.query(query, (err, result) => {
         if (err) throw err;
@@ -133,7 +204,10 @@ app.post('/contato', (req, res) => {
         if (err) throw err;
         console.log('Conectado ao Banco de Dados')
 
-        const query = `INSERT INTO contatos (nome, email, categoria) VALUES ('${contato.nome}', '${contato.email}', '${contato.categoria}')`;
+        const query = `
+            insert into contatos (nome, email, categoria) values
+            ('${contato.nome}', '${contato.email}', '${contato.categoria}');
+        `;
 
         con.query(query, (err, result) => {
             if (err) throw err;
@@ -171,7 +245,10 @@ app.put('/contato/:email', (req, res) => {
         if (err) throw err;
         console.log('Conectado ao Banco de Dados')
 
-        const query = `UPDATE contatos SET nome='${nomeNovo}', email='${emailNovo}', categoria='${categoriaNova}' WHERE email='${emailAntigo}'`;
+        const query = `
+            update contatos set nome='${nomeNovo}', email='${emailNovo}', categoria='${categoriaNova}'
+            where email='${emailAntigo}';
+        `;
 
         con.query(query, (err, result) => {
             if (err) throw err;
@@ -198,7 +275,10 @@ app.delete('/contato/:email', (req, res) => {
         if (err) throw err;
         console.log('Conectado ao Banco de Dados')
 
-        const query = `DELETE FROM contatos WHERE email='${email}'`;
+        const query = `
+            delete from contatos
+            where email='${email}';
+        `;
 
         con.query(query, (err, result) => {
             if (err) throw err;
