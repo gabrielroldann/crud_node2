@@ -191,6 +191,11 @@ fetch(`http://localhost:3000/filmes`, {
 })
 .catch(err => console.log(err))
 
+
+
+
+
+
 function colocar_generos(lista) {
     
     let teste_string = '';
@@ -206,6 +211,10 @@ function colocar_generos(lista) {
 }
 
 
+
+
+
+
 fetch(`http://localhost:3000/generos`, {
     method: 'GET',
     headers: {"Content-type": "application/json; charset=UTF-8"}
@@ -219,11 +228,137 @@ fetch(`http://localhost:3000/generos`, {
         const option = document.createElement('option');
         option.value = genero.id_genero;
         option.text = genero.nome_genero;
+        console.log('ID_GENERO:', genero.id_genero, '\nNOME_GENERO:', genero.nome_genero)
 
         dropdown.appendChild(option);
     })
-
-    
 });
 
 
+
+
+
+
+
+function filtrar() {
+    
+    const select_option = document.getElementById('filtroGenero');
+    const id = select_option.value;
+    
+    console.log('ID_GENERO:', id)
+
+    if (id != 0) {
+        const tabela = document.getElementById('tabela')
+        let tbody = tabela.querySelector('tbody')
+        tbody.innerHTML = ``;
+
+        fetch(`http://localhost:3000/filtro/${id}`, {
+            method: 'GET',
+            headers: {"Content-type": "application/json; charset=UTF-8"}
+        })
+        .then(response => response.json())
+        .then(filmes_filtrados => {
+
+            console.log(filmes_filtrados)
+
+            const lista_filmes = [ ];
+
+            filmes_filtrados.forEach(linha => {
+                const { id_filme, nome_filme, ano_filme, id_distribuidor, nome_distribuidor, id_genero, nome_genero } = linha;
+
+                if (!lista_filmes[id_filme]) {
+                    lista_filmes[id_filme] = { id_filme, nome_filme, ano_filme, id_distribuidor, nome_distribuidor, generos: [] }
+                }
+                lista_filmes[id_filme].generos.push({ id_genero, nome_genero })
+            })
+
+            // console.log('LISTA COMPLETA:', lista_filmes)
+
+            const tabela = document.getElementById('tabela')
+            const tbody = tabela.querySelector('tbody')
+
+            lista_filmes.forEach(filme => {
+                const arrayAllGeneros = filme.generos;
+                // console.log(arrayAllGeneros)
+
+                const teste_generos = [ ];
+                arrayAllGeneros.forEach(genero => {
+                    const generoAtual = genero.nome_genero;
+                    teste_generos.push(generoAtual)
+                    // console.log(genero.nome_genero)
+                })
+
+                // console.log(teste_generos)
+
+                const linha = document.createElement('tr')
+                
+                linha.innerHTML = `
+                    <td>${filme.nome_filme}</td>
+                    <td>${filme.ano_filme}</td>
+                    <td>${filme.nome_distribuidor}</td>
+                    <td>${colocar_generos(teste_generos)}</td>
+                `;
+                tbody.appendChild(linha)
+            });
+        })
+    }
+
+
+    if (id == 0) {
+
+        const tabela = document.getElementById('tabela')
+        let tbody = tabela.querySelector('tbody')
+        tbody.innerHTML = ``;
+
+        fetch(`http://localhost:3000/filmes`, {
+            method: 'GET',
+            headers: {"Content-type": "application/json; charset=UTF-8"}
+        })
+        .then(response => response.json())
+        .then(filmes => {
+
+            console.log('response:', filmes);
+
+            const lista_filmes = [ ];
+
+            filmes.forEach(linha => {
+                const { id_filme, nome_filme, ano_filme, id_distribuidor, nome_distribuidor, id_genero, nome_genero } = linha;
+
+                if (!lista_filmes[id_filme]) {
+                    lista_filmes[id_filme] = { id_filme, nome_filme, ano_filme, id_distribuidor, nome_distribuidor, generos: [] }
+                }
+                lista_filmes[id_filme].generos.push({ id_genero, nome_genero })
+            })
+
+            console.log('LISTA COMPLETA:', lista_filmes)
+
+            const tabela = document.getElementById('tabela')
+            const tbody = tabela.querySelector('tbody')
+
+            lista_filmes.forEach(filme => {
+                const arrayAllGeneros = filme.generos
+                // console.log(arrayAllGeneros)
+                
+                const teste_generos = [ ]
+                arrayAllGeneros.forEach(genero => {
+                    const generoAtual = genero.nome_genero;
+                    teste_generos.push(generoAtual)
+                    // console.log(genero.nome_genero)
+                })
+
+                // console.log(teste_generos)
+
+                const linha = document.createElement('tr')
+                
+                linha.innerHTML = `
+                    <td>${filme.nome_filme}</td>
+                    <td>${filme.ano_filme}</td>
+                    <td>${filme.nome_distribuidor}</td>
+                    <td>${colocar_generos(teste_generos)}</td>
+                `;
+                tbody.appendChild(linha)
+            });
+        })
+        .catch(err => console.log(err))
+    }
+}

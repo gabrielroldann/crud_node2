@@ -122,7 +122,7 @@ app.get('/generos', (req, res) => {
 });
 
 // filtra por genero
-app.get('/filmeGenero/:genero', (req, res) => {
+app.get('/filtro/:genero', (req, res) => {
 
     const genero = req.params.genero;
 
@@ -144,6 +144,13 @@ app.get('/filmeGenero/:genero', (req, res) => {
             where id_genero = ${genero}
             order by id_completos;
         `;
+
+        con.query(query, (err, result) => {
+            if (err) throw err;
+
+            console.log(result)
+            res.send(result)
+        })
     })
 })
 

@@ -339,8 +339,3 @@ form {
     /* align-items: center; */
     gap: 0.4rem;
 }
-
-#btnFiltro {
-    width: 50%;
-    align-self: center;
-}

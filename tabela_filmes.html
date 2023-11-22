@@ -27,10 +27,10 @@
                 <!-- ver_contato.html?email=${contato.email} -->
                 <form id="filtroFilmes">
                     <p>Filtrar por gênero</p>
-                    <select name="filtoGenero" id="filtroGenero">
+                    <select name="filtoGenero" id="filtroGenero" onchange="filtrar()">
                         <option value="" disabled selected hidden>Selecione um gênero</option>
+                        <option value="0">Sem filtro</option>
                     </select>
-                    <button type="submit" id="btnFiltro">Filtrar</button>
                 </form>
                 <div id="buttons">
                     <a id="ordemPadrao" href="tabela_filmes.html">Padrão</a>
